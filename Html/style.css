@@ -1,3 +1,9 @@
+*,
+*:before,
+*:after{
+  box-sizing: border-box;
+}
+
 /* selector */
 h1,
 section {
@@ -5,7 +11,7 @@ section {
   color: red;
 }
 
-#secondli{
+#secondli {
   background: #ffff00;
 }
 
@@ -31,4 +37,17 @@ a:active{
 
 input:focus{
   border-radius: 6px;
+}
+
+ol li {
+  font-family: "Comic Sans MS";
+  border-bottom: 1px solid blue;
+}
+
+ol li:last-child{
+  border: 0 none;
+}
+
+ol > li {
+  width: 400px;
 }
