@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.1"
+    "body-parser": "^1.18.2",
+    "express": "^4.16.1",
+    "express-handlebars": "^3.0.0"
   },
   "devDependencies": {
     "jasmine": "^2.8.0"
