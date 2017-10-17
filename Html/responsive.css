@@ -1,0 +1,30 @@
+.color_div{
+  background: green;
+}
+
+/* Tablets (768px to 1200px) */
+@media screen and (min-width: 768px) {
+  .color_div {
+    background: yellow;
+  }
+}
+
+/* Small Screen (1200px to 1920px) */
+@media screen and (min-width: 1200px) {
+  .color_div {
+    background: brown;
+  }
+}
+
+/* Large screen (1920px and above) */
+@media screen and (min-width: 1920px) {
+  .color_div {
+    background: gray;
+  }
+}
+
+@media print {
+  .color_div{
+    background: url('./yellow_dot.png') center center repeat;
+  }
+}
