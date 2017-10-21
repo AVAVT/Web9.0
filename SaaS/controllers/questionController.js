@@ -1,5 +1,6 @@
 const fileController = require('./fileController');
 const outputFileName = "question.json";
+const questionModel = require('../models/questionModel');
 
 const getQuestionList = () => {
   let questionList = fileController.readDataFromFile(outputFileName);
@@ -11,8 +12,15 @@ const saveQuestionList = (questionList) => {
 }
 
 const getQuestionById = (id) => {
-  let questionList = getQuestionList();
-  return questionList[id];
+  // questionModel.findOne({ _id : id }, (err, doc) => {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     console.log(doc);
+  //   }
+  // });
+
+  return questionModel.findOne({_id : id});
 }
 
 const getRandomQuestion = () => {
@@ -36,24 +44,15 @@ const updateQuestion = (id, answer) => {
   saveQuestionList(questionList);
 }
 
-const addNewQuestion = (question) => {
-  let newQuestion = {
-    question,
-    yes: 0,
-    no: 0
-  }
-  let questionList = [];
-
-  try {
-    questionList = getQuestionList();
-  } catch (ex) {
-    console.log(ex);
-  }
-  questionList.push(newQuestion);
-
-  saveQuestionList(questionList);
-
-  return questionList.length - 1;
+const addNewQuestion = (question, callback) => {
+  let newQuestion = { question }
+  questionModel.create(newQuestion, (err, doc) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, doc);
+    }
+  });
 }
 
 module.exports = {

@@ -3,9 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const exhbs = require('express-handlebars');
 
-const fileController = require('./fileController');
-const viewRouter = require('./viewRouter');
-const questionRouter = require('./questionRouter');
+const viewRouter = require('./router/viewRouter');
+const questionRouter = require('./router/questionRouter');
 const mongoose = require('mongoose');
 
 let app = express();
