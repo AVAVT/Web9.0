@@ -6,6 +6,7 @@ const exhbs = require('express-handlebars');
 const fileController = require('./fileController');
 const viewRouter = require('./viewRouter');
 const questionRouter = require('./questionRouter');
+const mongoose = require('mongoose');
 
 let app = express();
 
@@ -29,6 +30,14 @@ app.get('/about', (req, res) => {
 app.use('/ask', viewRouter);
 
 app.use('/question', questionRouter);
+
+mongoose.connect("mongodb://localhost/quyetde", (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("connect db success");
+  }
+});
 
 app.listen(6969, (err) => {
   if (err) {
