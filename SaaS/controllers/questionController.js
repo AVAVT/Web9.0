@@ -1,5 +1,3 @@
-const fileController = require('./fileController');
-const outputFileName = "question.json";
 const questionModel = require('../models/questionModel');
 
 const getQuestionById = (id) => {
@@ -7,42 +5,32 @@ const getQuestionById = (id) => {
 }
 
 const getRandomQuestion = (callback) => {
-  questionModel.count().exec((err, count) => {
-    let randCount = Math.floor(Math.random() * count);
-    questionModel.findOne({}).skip(randCount).exec((err, question) => {
-      if (err) {
-        callback(err);
-      } else {
-        callback(null, question);
-      }
+  questionModel.find({}, (err, questionList) => {
+    let randomId = Math.floor(Math.random() * questionList.length);
+    let question = questionList[randomId];
+    question.id = randomId;
+  
+    callback(question);
+  });
+}
+
+const updateQuestion = (id, answer) => {
+  getQuestionById(id)
+  .then((question) => {
+    if (answer === "yes") {
+      question.yes += 1;
+    } else if (answer === "no") {
+      question.no += 1;
+    }
+  
+    question.save(function (err, question) {
+      if (err) return console.error(err);
     });
   });
 }
 
-const updateQuestion = (id, answer, callback) => {
-  questionModel.findOne({ _id : id }, (err, question) => {
-    console.log(question);
-    if (err) {
-      console.log(err);
-      callback(err);
-    } else {
-      console.log("answer ",answer);
-      if (answer === "yes") {
-        question.yes = question.yes + 1;
-      } else if (answer === "no") {
-        question.no = question.no + 1;
-      }
-      question.save((err, doc) => {
-        console.log("updated ",doc);
-        callback(null, doc);
-      });
-
-    }
-  })
-}
-
 const addNewQuestion = (question, callback) => {
-  let newQuestion = { question };
+  let newQuestion = { question }
   questionModel.create(newQuestion, (err, doc) => {
     if (err) {
       console.log(err);
@@ -73,6 +61,6 @@ module.exports = {
   getQuestionById,
   getRandomQuestion,
   updateQuestion,
-  addNewQuestion,
+  addNewQuestion
   updateLikeQuestion
 }

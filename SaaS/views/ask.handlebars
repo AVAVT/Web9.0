@@ -1,4 +1,8 @@
+<h2 class="mt-3">Hãy hỏi cộng đồng một câu Đúng/Sai hoặc Có/Không</h2>
+
 <form method="post" action="/question">
-  <label>Question: </label><input type="text" name="question" />
-  <input type="submit" />
+  <textarea class="form-control" id="ask_textarea" name="question" rows="7" maxlength="200"></textarea>
+  <p class="text-muted">Còn <span id="remaining_chars">200</span>/200 ký tự.</p>
+  <button type="submit" class="btn btn-primary">Gửi</button>
 </form>
+<script src="/ask.js"></script>

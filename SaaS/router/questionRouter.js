@@ -1,40 +1,68 @@
 const express = require('express');
 const router = express.Router();
+const fileController = require('../controllers/fileController');
 const questionController = require('../controllers/questionController');
 
 router.get('/', (req, res) => {
-  questionController.getRandomQuestion((err, question) => {
-    if (err) {
-      res.redirect("/");
-    } else {
-      res.render("question", question);
-    }
+  let question = questionController.getRandomQuestion((question) => {
+    res.render(
+      "question",
+      {
+        id: question.id,
+        question: question.question,
+        yes: question.yes,
+        no: question.no
+      }
+    );
   });
 });
 
+router.get('/test', (req, res) => {
+  testPromise()
+    .then(questionList => res.send(questionList))
+    .catch(err => res.send(err));
+});
+
+
 router.get('/:id', (req, res) => {
   questionController.getQuestionById(req.params.id)
-    .then(doc => { res.render("answer", doc); })
+    .then(doc => { res.render("question", doc); })
     .catch(err => { res.redirect("/"); });
 });
 
-router.post('/', (req, res) => {
-  questionController.addNewQuestion(req.body.question, (err, question) => {
-    if (err) {
-      res.redirect("/");
-    } else {
-      res.redirect(`/question/${question.id}`);
+const testPromise = () => {
+  return new Promise(function(resolve, reject) {
+    try {
+      let questionList = fileController.readDataFromFile("test");
+      console.log("resolve");
+      resolve(questionList);
     }
+    catch (ex) {
+      console.log("reject");
+      reject(ex);
+    }
+  });
+}
+
+router.post('/', (req, res) => {
+  questionController.addNewQuestion(req.body.question, (err, data) => {
+    if(err) res.redirect('/');
+    res.redirect(`/question/${data._id}`);
   });
 });
 
 router.post('/:id', (req, res) => {
   let id = req.params.id;
-  let answer = req.body.yes || req.body.no;
+
+  if (req.body.yes) {
+    questionController.updateQuestion(id, "yes");
+  } else if (req.body.no) {
+    questionController.updateQuestion(id, "no");
+  }
 
   questionController.updateQuestion(id, answer, (err, doc) => {
     console.log("after update", doc);
-    res.redirect(`/question/${doc._id}`);
+  res.redirect(`/question/${id}`);
   });
 });
 
