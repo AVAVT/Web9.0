@@ -17,17 +17,9 @@ app.use(bodyParser.urlencoded({ extended : true }) );
 app.use(bodyParser.json({ extended: true }) );
 app.use(express.static(__dirname + "/public"));
 
-app.get('/', (req, res) => {
-  res.render("home");
-});
-
-app.get('/about', (req, res) => {
-  res.render("about");
-});
-
-app.use('/ask', viewRouter);
-
+app.use('/', viewRouter);
 app.use('/question', questionRouter);
+app.use('/api/question', apiRouter);
 
 app.use(express.static(__dirname + '/public'));
 
