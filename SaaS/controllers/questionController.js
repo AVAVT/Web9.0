@@ -1,5 +1,6 @@
 const questionModel = require('../models/questionModel');
 //Just some comment to test
+//Another feature done
 const getQuestionById = (id) => {
   return questionModel.findOne({_id : id});
 }
