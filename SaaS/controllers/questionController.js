@@ -2,6 +2,7 @@ const questionModel = require('../models/questionModel');
 //Just some comment to test
 //Another feature done
 //Just comment for stash
+//Test pull request
 const getQuestionById = (id) => {
   return questionModel.findOne({_id : id});
 }
