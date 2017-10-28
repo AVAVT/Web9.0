@@ -47,7 +47,8 @@
           "id": 3,
           "name": "crop"
         }
-      ]
+      ],
+      "correct": 0
     },
     {
       "id": 2,
@@ -70,7 +71,8 @@
           "id": 3,
           "name": "show"
         }
-      ]
+      ],
+      "correct": 3
     },
     {
       "id": 3,
@@ -93,7 +95,8 @@
           "id": 3,
           "name": "Separate"
         }
-      ]
+      ],
+      "correct": 2
     },
     {
       "id": 4,
@@ -116,7 +119,8 @@
           "id": 3,
           "name": "restore"
         }
-      ]
+      ],
+      "correct": 2
     }
   ]
 }
