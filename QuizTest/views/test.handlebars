@@ -1,0 +1,25 @@
+<h1 class="mt-3 text-success d-none" id="success_notification"></h1>
+<h1 class="mt-3">{{testData.title}}</h1>
+<p>{{testData.description}}</p>
+{{!-- onsubmit="return confirm('Are you sure?')" --}}
+<form method="post" action="/answer" id="test_form">
+    {{#each testData.questions}}
+    <article>
+        <h5>{{title}}</h5>
+        <p>
+            {{#each answer}}
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="question_{{../id}}" value="{{id}}">
+                    {{name}}
+                </label>
+            </div>
+            {{/each}}
+        </p>
+    </article>
+    {{/each}}
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+<script src="/test.js"></script>
