@@ -4,7 +4,8 @@ const createImage = (image, callback) => {
   let newImage = {
     imageUrl: image.imageUrl,
     title: image.title,
-    description: image.description
+    description: image.description,
+    poster: image.posterId
   };
 
   imagesModel.create(newImage, (err, data) => {
@@ -35,15 +36,19 @@ const getImageById = (id, callback) => {
   });
 }
 
-const getAllImages = (callback) => {
-  imagesModel.find({}, (err, data) => {
-    if (err) {
-      console.log(err);
-      callback(err);
-    } else {
-      callback(null, data);
-    }
-  });
+const getAllImages = (page, callback) => {
+  imagesModel.find({})
+    .skip(5)
+    .limit(5)
+    .populate("poster", "username title email")
+    .exec((err, data) => {
+      if (err) {
+        console.log(err);
+        callback(err);
+      } else {
+        callback(null, data);
+      }
+    });
 }
 
 module.exports = {
