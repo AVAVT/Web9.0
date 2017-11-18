@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  imagesController.getAllImages((err, data) => {
+  imagesController.getAllCookImage((err, data) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -23,11 +23,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  imagesController.getImageById(req.params.id, (err, data) => {
+  imagesController.updateImageView(req.params.id, (err, data) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
-      res.status(200).send(data);
+      res.status(200).send(imagesController.cookViewImageData(data));
     }
   });
 });

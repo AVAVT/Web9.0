@@ -19,28 +19,19 @@ const createImage = (image, callback) => {
 }
 
 const getImageById = (id, callback) => {
-  imagesModel.findOne({ _id: id }, (err, data) => {
+  imagesModel.findOne({ _id: id }).populate("poster", "username title email userAvatar").exec((err, data) => {
     if (err) {
       console.log(err);
       callback(err);
     } else {
-      data.views += 1;
-      data.save((err, updatedData) => {
-        if (err) {
-          console.log(err);
-        }
-        console.log(updatedData);
-        callback(null, updatedData);
-      });
+      callback(null, data);
     }
   });
 }
 
-const getAllImages = (page, callback) => {
+const getAllImages = (callback) => {
   imagesModel.find({})
-    .skip(5)
-    .limit(5)
-    .populate("poster", "username title email")
+    .populate("poster", "username title email userAvatar")
     .exec((err, data) => {
       if (err) {
         console.log(err);
@@ -51,8 +42,50 @@ const getAllImages = (page, callback) => {
     });
 }
 
+const updateImageView = (id, callback) => {
+  imagesModel.find({ _id : id }, (err, data) => {
+    data.views += 1;
+    data.save((err, updatedData) => {
+      if (err) {
+        console.log(err);
+        callback(err);
+      } else {
+        callback(null,updatedData);
+      }
+    })
+  })
+}
+
+const getAllCookImage = (callback) => {
+  getAllImages((err, data) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, data.map((value) => {
+        return cookViewImageData(value);
+      }));
+    }
+  })
+}
+
+const cookViewImageData = (imageData) => {
+  return {
+    id: imageData._id,
+    imageUrl: imageData.imageUrl,
+    view: imageData.views,
+    date: imageData.date,
+    plus: imageData.plus.length,
+    posterAvatar: imageData.poster.userAvatar,
+    posterName: imageData.poster.username,
+    posterTitle: imageData.title
+  }
+}
+
 module.exports = {
   createImage,
   getImageById,
-  getAllImages
+  getAllImages,
+  updateImageView,
+  cookViewImageData,
+  getAllCookImage
 }
