@@ -22,6 +22,16 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/page/:pageNo', (req, res) => {
+  imagesController.getAllCookImage((err, data) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.status(200).send(data);
+    }
+  });
+});
+
 router.get('/:id', (req, res) => {
   imagesController.updateImageView(req.params.id, (err, data) => {
     if (err) {

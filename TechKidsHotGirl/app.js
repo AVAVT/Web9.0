@@ -7,8 +7,6 @@ const exhbs = require('express-handlebars');
 const apiImage = require('./router/apiImagesRouter');
 const apiUser = require('./router/apiUsersRouter');
 
-const imagesController = require('./controllers/imagesController');
-
 let app = express();
 
 app.engine("handlebars", exhbs({ defaultLayout : "main"}));
@@ -18,14 +16,7 @@ app.use(bodyParser.urlencoded({ extended : true }) );
 app.use(bodyParser.json({ extended: true }) );
 
 app.get('/', (req, res) => {
-  imagesController.getAllCookImage((err, data) => {
-    if (err) {
-      res.status(500).send(err.message);
-    } else {
-      console.log(data);
-      res.render("home", {images: data})
-    }
-  });
+  res.render("home")
 });
 
 app.use('/api/images', apiImage);
