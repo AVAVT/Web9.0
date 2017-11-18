@@ -56,3 +56,12 @@ body {
 .content {
     margin-top: 30px;
 }
+
+.girl_item{
+    margin-bottom: 15px;
+}
+
+.girl_item h4{
+    background: #ffffff;
+    padding: 7px 15px;
+}
