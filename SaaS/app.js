@@ -7,8 +7,13 @@ const viewRouter = require('./router/viewRouter');
 const questionRouter = require('./router/questionRouter');
 const apiRouter = require('./router/apiRouter');
 const mongoose = require('mongoose');
+const config = require('./config.json');
 
 let app = express();
+
+let connectionString = process.env.PORT ? config.production.connectionString : config.development.connectionString;
+
+let port = process.env.PORT ? process.env.PORT : config.development.port;
 
 app.engine("handlebars", exhbs({ defaultLayout : "main"}));
 app.set("view engine", "handlebars");
@@ -23,7 +28,7 @@ app.use('/api/question', apiRouter);
 
 app.use(express.static(__dirname + '/public'));
 
-mongoose.connect("mongodb://localhost/quyetde", (err) => {
+mongoose.connect(connectionString, (err) => {
   if (err) {
     console.log(err);
   } else {
@@ -31,7 +36,7 @@ mongoose.connect("mongodb://localhost/quyetde", (err) => {
   }
 });
 
-app.listen(6969, (err) => {
+app.listen(port, (err) => {
   if (err) {
     console.log(err);
   } else {
