@@ -3,6 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const exhbs = require('express-handlebars');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 const apiImage = require('./router/apiImagesRouter');
 const apiUser = require('./router/apiUsersRouter');
@@ -14,9 +16,17 @@ app.set("view engine", "handlebars");
 
 app.use(bodyParser.urlencoded({ extended : true }) );
 app.use(bodyParser.json({ extended: true }) );
+app.use(session({
+  secret: 'hotgirl',
+  cookie: {},
+  resave: false,
+  saveUninitialized: true,
+}));
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
-  res.render("home")
+  //console.log(req);
+  res.render("home", { username : req.session.username || req.cookies.username });
 });
 
 app.use('/api/images', apiImage);

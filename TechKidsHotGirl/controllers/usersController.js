@@ -40,7 +40,27 @@ const deleteUserById = (id) => {
 
 }
 
+const loginUser = (user, callback) => {
+  usersModel.findOne({ username: user.username }, "username password", (err, data) => {
+    if (err)
+      callback(err);
+    else if (!data)
+      callback({ message: "user not found" });
+    else {
+      bcrypt.compare(user.password, data.password).then(result => {
+        if (!result)
+          callback({ message: "password is wrong" });
+        else {
+          data.remember = user.remember;
+          callback(null, data);
+        }
+      })
+    }
+  })
+}
+
 module.exports = {
   createUser,
   getUserById,
+  loginUser
 }
